@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyrus Ng | CS Graduate</title>
+
+  <!-- Google Fonts: Space Grotesk -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- AOS Animations -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+  <style>
+    /* ================================================
+       CSS VARIABLES — DARK & LIGHT THEMES
+    ================================================ */
+    :root[data-theme="dark"] {
+      --bg-primary:    #09090f;
+      --bg-secondary:  #0f0f18;
+      --bg-card:       #14141f;
+      --bg-card-hover: #1c1c2a;
+      --text-primary:  #eeeef5;
+      --text-secondary:#a0a0b8;
+      --text-muted:    #55556a;
+      --accent:        #8b5cf6;
+      --accent-light:  #a78bfa;
+      --accent-dark:   #7c3aed;
+      --accent-glow:   rgba(139,92,246,0.25);
+      --border:        rgba(139,92,246,0.18);
+      --nav-bg:        rgba(9,9,15,0.88);
+      --shadow:        0 8px 40px rgba(0,0,0,0.6);
+      --hero-grad:     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139,92,246,0.12) 0%, transparent 70%);
+    }
+
+    :root[data-theme="light"] {
+      --bg-primary:    #f7f6ff;
+      --bg-secondary:  #eeecff;
+      --bg-card:       #ffffff;
+      --bg-card-hover: #f3f0ff;
+      --text-primary:  #12112a;
+      --text-secondary:#4a4869;
+      --text-muted:    #9997b5;
+      --accent:        #7c3aed;
+      --accent-light:  #8b5cf6;
+      --accent-dark:   #6d28d9;
+      --accent-glow:   rgba(124,58,237,0.18);
+      --border:        rgba(124,58,237,0.18);
+      --nav-bg:        rgba(247,246,255,0.88);
+      --shadow:        0 8px 40px rgba(124,58,237,0.1);
+      --hero-grad:     radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,0.08) 0%, transparent 70%);
+    }
+
+    /* ================================================
+       BASE RESET
+    ================================================ */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+
+    /* Styled scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+    ::selection { background: var(--accent-glow); color: var(--accent-light); }
+
+    /* ================================================
+       NAVBAR
+    ================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      background: var(--nav-bg);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s, box-shadow 0.3s;
+    }
+
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* Theme toggle pill */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 0.3px;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    .theme-toggle .t-icon { font-size: 0.95rem; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    /* Nav right wrapper */
+    .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+    /* ================================================
+       HERO SECTION
+    ================================================ */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 5% 60px;
+      overflow: hidden;
+      background: var(--hero-grad);
+    }
+
+    /* Particle canvas */
+    #particle-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 820px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-glow);
+      border: 1px solid var(--border);
+      color: var(--accent-light);
+      padding: 6px 20px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-name {
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .hero-name .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.35rem);
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.2px;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.75;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 13px 34px;
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      border-color: var(--accent-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px var(--accent-glow);
+    }
+
+    .btn-outline {
+      padding: 13px 34px;
+      background: transparent;
+      color: var(--text-primary);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    /* Scroll cue */
+    .scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: floatDown 2.2s ease-in-out infinite;
+    }
+
+    .scroll-cue svg {
+      width: 18px; height: 18px;
+      stroke: var(--text-muted);
+    }
+
+    @keyframes floatDown {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(9px); }
+    }
+
+    /* ================================================
+       SHARED SECTION STYLES
+    ================================================ */
+    section { padding: 100px 5%; }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    .section-eyebrow {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -1.2px;
+      margin-bottom: 0.75rem;
+      line-height: 1.15;
+    }
+
+    .section-rule {
+      width: 52px; height: 3px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      border-radius: 2px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* ================================================
+       ABOUT SECTION
+    ================================================ */
+    #about { background: var(--bg-secondary); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    /* Photo */
+    .photo-wrap { position: relative; display: inline-block; }
+
+    .photo-box {
+      width: 280px;
+      aspect-ratio: 3/4;
+      border-radius: 24px;
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      box-shadow: var(--shadow);
+      display: block;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .photo-box:hover img { transform: scale(1.04); }
+
+    .photo-chip {
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 10px 16px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px var(--accent-glow);
+      letter-spacing: 0.3px;
+    }
+
+    /* About text */
+    .about-body h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+    }
+
+    .about-body p {
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 1.25rem;
+      font-size: 0.97rem;
+    }
+
+    .about-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    .fact {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .fact:hover {
+      border-color: var(--accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-3px);
+    }
+
+    .fact-emoji { font-size: 1.4rem; display: block; margin-bottom: 0.45rem; }
+    .fact-key   { color: var(--text-muted); font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.2rem; }
+    .fact-val   { color: var(--text-primary); font-weight: 600; font-size: 0.88rem; }
+
+    /* ================================================
+       SKILLS SECTION
+    ================================================ */
+    #skills { background: var(--bg-primary); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1.1rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.75rem 1rem;
+      text-align: center;
+      cursor: default;
+      transition: all 0.3s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      background: var(--bg-card-hover);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 32px var(--accent-glow);
+    }
+
+    .skill-card .s-icon { font-size: 2.4rem; display: block; margin-bottom: 0.7rem; }
+    .skill-card .s-name { font-weight: 600; font-size: 0.9rem; }
+
+    /* ================================================
+       PROJECTS SECTION
+    ================================================ */
+    #projects { background: var(--bg-secondary); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-7px);
+      box-shadow: 0 16px 48px var(--accent-glow);
+    }
+
+    .project-card:hover::after { opacity: 1; }
+
+    .project-num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .project-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.7rem;
+    }
+
+    .project-desc {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.75;
+      margin-bottom: 1.4rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .tag {
+      background: var(--accent-glow);
+      color: var(--accent-light);
+      border: 1px solid var(--border);
+      padding: 3px 12px;
+      border-radius: 50px;
+      font-size: 0.77rem;
+      font-weight: 600;
+    }
+
+    .project-links { display: flex; gap: 0.75rem; align-items: center; }
+
+    .proj-link {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.83rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+
+    .proj-link:hover { color: var(--accent); }
+
+    .wip-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-glow);
+      border: 1px dashed var(--accent);
+      color: var(--accent-light);
+      padding: 5px 14px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    /* "Add more" placeholder card */
+    .project-card.add-more {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 200px;
+      border-style: dashed;
+    }
+
+    .add-more .add-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.5; }
+
+    /* ================================================
+       CONTACT SECTION
+    ================================================ */
+    #contact { background: var(--bg-primary); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-left h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; }
+
+    .contact-left p {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .c-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.85rem 1.1rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .c-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--bg-card-hover);
+      transform: translateX(5px);
+    }
+
+    .c-link .c-icon { font-size: 1.15rem; }
+
+    /* Contact form */
+    .contact-form-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 2.25rem;
+    }
+
+    .form-row { margin-bottom: 1.2rem; }
+
+    .form-row label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-row input,
+    .form-row textarea {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 15px;
+      color: var(--text-primary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.93rem;
+      outline: none;
+      transition: all 0.3s;
+      resize: none;
+    }
+
+    .form-row textarea { min-height: 120px; resize: vertical; }
+
+    .form-row input:focus,
+    .form-row textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 13px;
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.97rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+
+    .form-submit:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 36px var(--accent-glow);
+    }
+
+    /* ================================================
+       FOOTER
+    ================================================ */
+    footer {
+      padding: 2rem 5%;
+      text-align: center;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+    }
+
+    footer span { color: var(--accent); font-weight: 700; }
+
+    /* ================================================
+       RESPONSIVE
+    ================================================ */
+    @media (max-width: 860px) {
+      .about-grid   { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .about-photo-col { display: flex; justify-content: center; }
+
+      .hamburger { display: flex; }
+
+      .nav-links {
+        position: fixed;
+        top: 64px; left: 0; right: 0;
+        flex-direction: column;
+        padding: 1.5rem 5%;
+        gap: 1.25rem;
+        background: var(--nav-bg);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-110%);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .nav-links.open {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .about-facts { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      section { padding: 80px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+  ============================================================ -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">CN.</a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+        <span class="t-icon" id="t-icon">☀️</span>
+        <span id="t-label">Light</span>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero">
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="hero-content">
+      <div class="hero-badge" data-aos="fade-down" data-aos-delay="80">
+        👋 &nbsp;Welcome to my portfolio
+      </div>
+
+      <h1 class="hero-name" data-aos="fade-up" data-aos-delay="180">
+        Ming Hei<br>
+        <span class="gradient-text">Cyrus Ng</span>
+      </h1>
+
+      <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="280">
+        CS Graduate &nbsp;·&nbsp; Aspiring Developer
+      </p>
+
+      <p class="hero-desc" data-aos="fade-up" data-aos-delay="360">
+        Passionate about building clean, data-driven, and meaningful digital experiences.
+        From Python scripts to polished web interfaces — I love turning ideas into reality through code.
+      </p>
+
+      <div class="hero-buttons" data-aos="fade-up" data-aos-delay="440">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact"  class="btn-outline">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="scroll-cue">
+      <span>scroll</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       ABOUT
+  ============================================================ -->
+  <section id="about">
+    <div class="container">
+      <p class="section-eyebrow" data-aos="fade-right">About Me</p>
+      <h2 class="section-title"  data-aos="fade-right" data-aos-delay="80">Who I am</h2>
+      <div class="section-rule"  data-aos="fade-right" data-aos-delay="120"></div>
+
+      <div class="about-grid">
+
+        <!-- Photo column -->
+        <div class="about-photo-col" data-aos="fade-right" data-aos-delay="200">
+          <div class="photo-wrap">
+            <div class="photo-box">
+              <img src="./photo.jpg" alt="Cyrus Ng at Anfield">
+            </div>
+            <div class="photo-chip">CS Graduate</div>
+          </div>
+        </div>
+
+        <!-- Text column -->
+        <div class="about-body" data-aos="fade-left" data-aos-delay="280">
+          <h3>Hi, I'm Cyrus 👋</h3>
+          <p>
+            I'm a Computer Science graduate with a genuine passion for building things that live on the web and making sense of data. I enjoy crafting clean, user-friendly interfaces and writing code that solves real-world problems.
+          </p>
+          <p>
+            Whether it's wrangling datasets with Python and SQL, or bringing designs to life with HTML, CSS, and JavaScript — I'm always eager to learn, create, and grow. I believe great software begins with curiosity and attention to detail.
+          </p>
+
+          <div class="about-facts">
+            <div class="fact" data-aos="zoom-in" data-aos-delay="350">
+              <span class="fact-emoji">🎓</span>
+              <div class="fact-key">Education</div>
+              <div class="fact-val">Computer Science</div>
+            </div>
+            <div class="fact" data-aos="zoom-in" data-aos-delay="400">
+              <span class="fact-emoji">💻</span>
+              <div class="fact-key">Focus</div>
+              <div class="fact-val">Web &amp; Data</div>
+            </div>
+            <div class="fact" data-aos="zoom-in" data-aos-delay="450">
+              <span class="fact-emoji">📍</span>
+              <div class="fact-key">Status</div>
+              <div class="fact-val">Open to Work</div>
+            </div>
+            <div class="fact" data-aos="zoom-in" data-aos-delay="500">
+              <span class="fact-emoji">🚀</span>
+              <div class="fact-key">Goal</div>
+              <div class="fact-val">Build great things</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SKILLS
+  ============================================================ -->
+  <section id="skills">
+    <div class="container">
+      <p class="section-eyebrow" data-aos="fade-right">Tech Stack</p>
+      <h2 class="section-title"  data-aos="fade-right" data-aos-delay="80">Skills &amp; Tools</h2>
+      <div class="section-rule"  data-aos="fade-right" data-aos-delay="120"></div>
+
+      <div class="skills-grid">
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="80">
+          <span class="s-icon">🐍</span>
+          <span class="s-name">Python</span>
+        </div>
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="130">
+          <span class="s-icon">🗄️</span>
+          <span class="s-name">SQL</span>
+        </div>
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="180">
+          <span class="s-icon">🌐</span>
+          <span class="s-name">HTML</span>
+        </div>
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="230">
+          <span class="s-icon">🎨</span>
+          <span class="s-name">CSS</span>
+        </div>
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="280">
+          <span class="s-icon">⚡</span>
+          <span class="s-name">JavaScript</span>
+        </div>
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="330">
+          <span class="s-icon">🔀</span>
+          <span class="s-name">Git</span>
+        </div>
+        <div class="skill-card" data-aos="zoom-in" data-aos-delay="380">
+          <span class="s-icon">🐙</span>
+          <span class="s-name">GitHub</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PROJECTS
+  ============================================================ -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-eyebrow" data-aos="fade-right">My Work</p>
+      <h2 class="section-title"  data-aos="fade-right" data-aos-delay="80">Projects</h2>
+      <div class="section-rule"  data-aos="fade-right" data-aos-delay="120"></div>
+
+      <div class="projects-grid">
+
+        <!-- Project placeholder 1 -->
+        <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="project-num">01 · Coming Soon</div>
+          <h3 class="project-title">Project Name</h3>
+          <p class="project-desc">
+            A short description of what this project does, the problem it solves, and what makes it interesting. Replace this with your real project details.
+          </p>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">JavaScript</span>
+          </div>
+          <div class="project-links">
+            <span class="wip-badge">🚧 In Progress</span>
+          </div>
+        </div>
+
+        <!-- Project placeholder 2 -->
+        <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-num">02 · Coming Soon</div>
+          <h3 class="project-title">Another Project</h3>
+          <p class="project-desc">
+            More projects are actively being built. Check back soon, or reach out to hear about what I'm currently working on!
+          </p>
+          <div class="project-tags">
+            <span class="tag">SQL</span>
+            <span class="tag">HTML / CSS</span>
+          </div>
+          <div class="project-links">
+            <span class="wip-badge">🚧 In Progress</span>
+          </div>
+        </div>
+
+        <!-- Add-more placeholder -->
+        <div class="project-card add-more" data-aos="fade-up" data-aos-delay="300">
+          <div class="add-icon">➕</div>
+          <h3 class="project-title" style="font-size:1rem;">More on the way…</h3>
+          <p class="project-desc" style="margin-top:0.5rem;">
+            Projects are being built right now. Stay tuned!
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       CONTACT
+  ============================================================ -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-eyebrow" data-aos="fade-right">Get In Touch</p>
+      <h2 class="section-title"  data-aos="fade-right" data-aos-delay="80">Contact Me</h2>
+      <div class="section-rule"  data-aos="fade-right" data-aos-delay="120"></div>
+
+      <div class="contact-grid">
+
+        <!-- Left info -->
+        <div class="contact-left" data-aos="fade-right" data-aos-delay="200">
+          <h3>Let's work together 🤝</h3>
+          <p>
+            Whether you have a project in mind, an opportunity to share, or just want to say hello — my inbox is always open. I'll get back to you as soon as I can!
+          </p>
+          <div class="contact-links">
+            <a href="mailto:cyrusngmh@gmail.com" class="c-link">
+              <span class="c-icon">📧</span>
+              cyrusngmh@gmail.com
+            </a>
+            <a href="#" class="c-link" id="github-link">
+              <span class="c-icon">🐙</span>
+              GitHub — add your link
+            </a>
+            <a href="#" class="c-link" id="linkedin-link">
+              <span class="c-icon">💼</span>
+              LinkedIn — add your link
+            </a>
+          </div>
+        </div>
+
+        <!-- Right form -->
+        <div class="contact-form-box" data-aos="fade-left" data-aos-delay="300">
+          <form id="contact-form" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <label>Your Name</label>
+              <input type="text" placeholder="Jane Smith" required>
+            </div>
+            <div class="form-row">
+              <label>Email Address</label>
+              <input type="email" placeholder="jane@example.com" required>
+            </div>
+            <div class="form-row">
+              <label>Message</label>
+              <textarea placeholder="Tell me about your project or just say hi…" required></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="submit-btn">
+              Send Message 🚀
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <p>Designed &amp; Built by <span>Cyrus Ng</span> &nbsp;·&nbsp; © 2026</p>
+  </footer>
+
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <script>
+    /* ============================================================
+       AOS INIT
+    ============================================================ */
+    AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 55 });
+
+
+    /* ============================================================
+       THEME TOGGLE
+    ============================================================ */
+    const html        = document.documentElement;
+    const tToggle     = document.getElementById('theme-toggle');
+    const tIcon       = document.getElementById('t-icon');
+    const tLabel      = document.getElementById('t-label');
+
+    // Restore saved preference
+    const saved = localStorage.getItem('portfolio-theme') || 'dark';
+    applyTheme(saved);
+
+    tToggle.addEventListener('click', () => {
+      const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem('portfolio-theme', next);
+    });
+
+    function applyTheme(theme) {
+      html.setAttribute('data-theme', theme);
+      if (theme === 'dark') {
+        tIcon.textContent  = '☀️';
+        tLabel.textContent = 'Light';
+      } else {
+        tIcon.textContent  = '🌙';
+        tLabel.textContent = 'Dark';
+      }
+    }
+
+
+    /* ============================================================
+       HAMBURGER MENU
+    ============================================================ */
+    const hamburger = document.getElementById('hamburger');
+    const navLinks  = document.getElementById('nav-links');
+
+    hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+
+    /* ============================================================
+       NAVBAR SCROLL SHADOW
+    ============================================================ */
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').style.boxShadow =
+        window.scrollY > 40 ? '0 4px 30px rgba(0,0,0,0.25)' : 'none';
+    });
+
+
+    /* ============================================================
+       PARTICLE / STAR CANVAS
+    ============================================================ */
+    (function () {
+      const canvas  = document.getElementById('particle-canvas');
+      const ctx     = canvas.getContext('2d');
+      let   dots    = [];
+      let   raf;
+      const mouse   = { x: null, y: null };
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        init();
+      }
+
+      function init() {
+        dots = [];
+        const n = Math.floor((canvas.width * canvas.height) / 7500);
+        for (let i = 0; i < n; i++) {
+          dots.push({
+            x:     Math.random() * canvas.width,
+            y:     Math.random() * canvas.height,
+            r:     Math.random() * 1.8 + 0.4,
+            vx:    (Math.random() - 0.5) * 0.35,
+            vy:    (Math.random() - 0.5) * 0.35,
+            alpha: Math.random() * 0.55 + 0.2,
+            phase: Math.random() * Math.PI * 2,
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const isDark = html.dataset.theme === 'dark';
+        const rgb    = isDark ? '139,92,246' : '109,40,217';
+
+        dots.forEach((d, i) => {
+          d.phase += 0.018;
+          const a = d.alpha + Math.sin(d.phase) * 0.12;
+
+          // Dot
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${rgb},${a})`;
+          ctx.fill();
+
+          // Lines to nearby dots
+          for (let j = i + 1; j < dots.length; j++) {
+            const dx   = d.x - dots[j].x;
+            const dy   = d.y - dots[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 105) {
+              ctx.beginPath();
+              ctx.moveTo(d.x, d.y);
+              ctx.lineTo(dots[j].x, dots[j].y);
+              ctx.strokeStyle = `rgba(${rgb},${(1 - dist / 105) * 0.13})`;
+              ctx.lineWidth   = 0.5;
+              ctx.stroke();
+            }
+          }
+
+          // Mouse repel
+          if (mouse.x !== null) {
+            const mdx  = d.x - mouse.x;
+            const mdy  = d.y - mouse.y;
+            const mdst = Math.sqrt(mdx * mdx + mdy * mdy);
+            if (mdst < 90) {
+              d.x += mdx * 0.025;
+              d.y += mdy * 0.025;
+            }
+          }
+
+          // Move + bounce
+          d.x += d.vx;
+          d.y += d.vy;
+          if (d.x < 0 || d.x > canvas.width)  d.vx *= -1;
+          if (d.y < 0 || d.y > canvas.height) d.vy *= -1;
+        });
+
+        raf = requestAnimationFrame(draw);
+      }
+
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+
+      canvas.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+
+
+    /* ============================================================
+       CONTACT FORM
+    ============================================================ */
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn     = document.getElementById('submit-btn');
+      btn.textContent = '✅ Sent!';
+      btn.style.background = '#10b981';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Send Message 🚀';
+        btn.style.background = '';
+        btn.disabled = false;
+        e.target.reset();
+      }, 3000);
+    }
+  </script>
+
+</body>
+</html>
