@@ -845,7 +845,7 @@
         <div class="about-photo-col" data-aos="fade-right" data-aos-delay="200">
           <div class="photo-wrap">
             <div class="photo-box">
-              <img src="./photo.jpg" alt="Cyrus Ng at Anfield">
+              <img src="./photo.JPG" alt="Cyrus Ng at Anfield">
             </div>
             <div class="photo-chip">CS Graduate</div>
           </div>
@@ -1023,25 +1023,30 @@
           </div>
         </div>
 
-        <!-- Right form -->
+        <!-- Right form — powered by Formspree -->
         <div class="contact-form-box" data-aos="fade-left" data-aos-delay="300">
-          <form id="contact-form" onsubmit="handleSubmit(event)">
+          <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
             <div class="form-row">
               <label>Your Name</label>
-              <input type="text" placeholder="Jane Smith" required>
+              <input type="text" name="name" placeholder="Jane Smith" required>
             </div>
             <div class="form-row">
               <label>Email Address</label>
-              <input type="email" placeholder="jane@example.com" required>
+              <input type="email" name="email" placeholder="jane@example.com" required>
             </div>
             <div class="form-row">
               <label>Message</label>
-              <textarea placeholder="Tell me about your project or just say hi…" required></textarea>
+              <textarea name="message" placeholder="Tell me about your project or just say hi…" required></textarea>
             </div>
+            <!-- Hidden field so Formspree knows where to forward replies -->
+            <input type="hidden" name="_replyto" value="cyrusngmh@gmail.com">
             <button type="submit" class="form-submit" id="submit-btn">
               Send Message 🚀
             </button>
           </form>
+          <div id="form-success" style="display:none; text-align:center; padding:2rem 0; color:var(--accent); font-weight:700; font-size:1.05rem;">
+            ✅ Message sent! I'll get back to you soon.
+          </div>
         </div>
 
       </div>
@@ -1215,20 +1220,32 @@
 
 
     /* ============================================================
-       CONTACT FORM
+       CONTACT FORM — Formspree
     ============================================================ */
-    function handleSubmit(e) {
-      e.preventDefault();
-      const btn     = document.getElementById('submit-btn');
-      btn.textContent = '✅ Sent!';
-      btn.style.background = '#10b981';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Send Message 🚀';
-        btn.style.background = '';
-        btn.disabled = false;
-        e.target.reset();
-      }, 3000);
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+
+        const data = new FormData(contactForm);
+        const response = await fetch(contactForm.action, {
+          method: 'POST',
+          body: data,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          contactForm.style.display = 'none';
+          document.getElementById('form-success').style.display = 'block';
+        } else {
+          btn.textContent = '❌ Error — try emailing directly';
+          btn.style.background = '#ef4444';
+          btn.disabled = false;
+        }
+      });
     }
   </script>
 
