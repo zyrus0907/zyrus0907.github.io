@@ -165,6 +165,7 @@
       .hide-sm { display:none !important; }
       .grid-2 { grid-template-columns:1fr !important; }
       .proj-img { aspect-ratio:16/9; }
+      .about-grid-r { grid-template-columns:1fr !important; gap:32px !important; }
     }
     @media(max-width:480px) {
       .h1 { font-size:clamp(1.75rem,8vw,2.4rem); }
@@ -199,25 +200,24 @@
 
     <p class="fiu" style="font-family:monospace;font-size:.75rem;color:var(--subtle);
       letter-spacing:.12em;margin-bottom:16px;animation-delay:.2s">
-      CS GRADUATE &nbsp;·&nbsp; ASPIRING DEVELOPER
+      CS GRADUATE &nbsp;·&nbsp; HONG KONG
     </p>
 
     <h1 class="h1 fiu" style="margin-bottom:28px;animation-delay:.3s">
-      Building things that<br>
-      <span class="s">live on the web,</span><br>
-      crafted with care.
+      I build stuff,<br>
+      <span class="s">break stuff,</span><br>
+      and learn from it.
     </h1>
 
     <div class="fiu" style="display:flex;flex-direction:column;gap:18px;
       font-size:.97rem;line-height:1.78;color:var(--ink);
       margin-bottom:32px;animation-delay:.4s">
-      <p>A Computer Science graduate who loves crafting clean, purposeful, and data-driven digital experiences — from Python scripts to polished web interfaces.</p>
-      <p>I care about the details. Every line of code, every design decision, every interaction — built to be elegant and meaningful.</p>
-      <p>Currently open to full-time roles and interesting projects.</p>
+      <p>CS grad who got hooked on coding and never stopped. I like making small tools and projects — stuff that actually does something useful, even if it's just for me.</p>
+      <p>Currently looking for my first role where I can keep learning and ship real things.</p>
     </div>
 
     <div class="fiu" style="display:flex;flex-wrap:wrap;gap:12px;animation-delay:.5s">
-      <a href="#projects" class="btn btn-p">View projects</a>
+      <a href="#projects" class="btn btn-p">See my work</a>
       <a href="#contact"  class="btn btn-s">Get in touch</a>
     </div>
 
@@ -291,34 +291,93 @@
 
 
 <!-- ════════════════════════════════════════════
-     ABOUT / QUOTE
+     ABOUT
 ════════════════════════════════════════════ -->
-<section class="sec">
-  <div style="max-width:700px;margin:0 auto;text-align:center;">
+<section class="sec" id="about" style="background:#fafafa;">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:60px;align-items:start;"
+      class="about-grid-r">
 
-    <svg class="fiu" style="margin:0 auto 20px;animation-delay:.1s" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="1.5">
-      <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
-      <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
-    </svg>
+      <!-- Photo -->
+      <div class="fiu" style="animation-delay:.1s">
+        <div style="border-radius:20px;overflow:hidden;aspect-ratio:3/4;
+          box-shadow:var(--sh-card);">
+          <img src="./photo.jpg" alt="Cyrus Ng at Anfield"
+            style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+        </div>
+        <!-- Social links under photo -->
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+          <a href="https://instagram.com/cyrusngmh" target="_blank"
+            style="display:flex;align-items:center;gap:6px;font-size:.8rem;
+              color:var(--muted);text-decoration:none;padding:6px 14px;
+              border-radius:50px;border:0.5px solid var(--line);
+              transition:all .2s;background:#fff;"
+            onmouseover="this.style.borderColor='var(--ink)';this.style.color='var(--ink)'"
+            onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--muted)'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            @cyrusngmh
+          </a>
+          <a href="https://github.com/zyrus0907" target="_blank"
+            style="display:flex;align-items:center;gap:6px;font-size:.8rem;
+              color:var(--muted);text-decoration:none;padding:6px 14px;
+              border-radius:50px;border:0.5px solid var(--line);
+              transition:all .2s;background:#fff;"
+            onmouseover="this.style.borderColor='var(--ink)';this.style.color='var(--ink)'"
+            onmouseout="this.style.borderColor='var(--line)';this.style.color='var(--muted)'">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            zyrus0907
+          </a>
+        </div>
+      </div>
 
-    <h2 class="h1 fiu s" style="color:var(--ink2);margin-bottom:20px;animation-delay:.2s">
-      I graduated to build the products I always wanted to use.
-    </h2>
+      <!-- Text -->
+      <div>
+        <p style="font-family:monospace;font-size:.72rem;letter-spacing:.12em;
+          color:var(--subtle);margin-bottom:12px;" class="fiu" style="animation-delay:.1s">ABOUT ME</p>
 
-    <p class="fiu" style="font-style:italic;font-size:.9rem;color:var(--muted);
-      margin-bottom:40px;animation-delay:.3s">
-      — Cyrus Ng, CS Graduate
-    </p>
+        <h2 class="h1 s fiu" style="margin-bottom:28px;animation-delay:.2s">
+          Just a guy who likes building things.
+        </h2>
 
-    <div class="fiu" style="display:flex;justify-content:center;align-items:center;
-      gap:32px;flex-wrap:wrap;animation-delay:.4s">
-      <span style="font-size:1.1rem;font-weight:500;color:var(--ink2);">Python</span>
-      <span style="color:var(--line);">|</span>
-      <span style="font-size:1.1rem;font-weight:500;color:var(--ink2);">JavaScript</span>
-      <span style="color:var(--line);">|</span>
-      <span style="font-size:1.1rem;font-weight:500;color:var(--ink2);">SQL</span>
+        <div class="fiu" style="font-size:.97rem;line-height:1.85;color:var(--muted);
+          display:flex;flex-direction:column;gap:16px;margin-bottom:36px;animation-delay:.3s">
+          <p>I'm Cyrus, a CS graduate from Hong Kong. I got into coding because I liked the idea of being able to make something from nothing — and that hasn't changed.</p>
+          <p>Most of what I build are small tools and apps — things like flashcard quizzes, a pomodoro timer, or a dream-logging app. Nothing groundbreaking, but every project teaches me something new.</p>
+          <p>I'm looking for my first job in tech. I work hard, pick things up quickly, and I'm happy to start from the bottom.</p>
+        </div>
+
+        <!-- Hobbies -->
+        <div class="fiu" style="animation-delay:.4s">
+          <p style="font-size:.78rem;font-weight:500;color:var(--subtle);
+            letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;">
+            Outside of code
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;">
+            <span style="display:flex;align-items:center;gap:7px;padding:8px 16px;
+              border-radius:50px;background:#fff;border:0.5px solid var(--line);
+              font-size:.85rem;color:var(--ink);">
+              ⚽ Football
+            </span>
+            <span style="display:flex;align-items:center;gap:7px;padding:8px 16px;
+              border-radius:50px;background:#fff;border:0.5px solid var(--line);
+              font-size:.85rem;color:var(--ink);">
+              ✈️ Travelling
+            </span>
+            <span style="display:flex;align-items:center;gap:7px;padding:8px 16px;
+              border-radius:50px;background:#fff;border:0.5px solid var(--line);
+              font-size:.85rem;color:var(--ink);">
+              🎮 Gaming
+            </span>
+            <span style="display:flex;align-items:center;gap:7px;padding:8px 16px;
+              border-radius:50px;background:#fff;border:0.5px solid var(--line);
+              font-size:.85rem;color:var(--ink);">
+              🛠️ Building little tools
+            </span>
+          </div>
+        </div>
+
+      </div>
     </div>
-
   </div>
 </section>
 
@@ -728,6 +787,12 @@
             style="font-size:.9rem;color:var(--ink);transition:opacity .2s;display:flex;align-items:center;gap:5px;"
             onmouseover="this.style.opacity=.5" onmouseout="this.style.opacity=1">
             Email
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+          <a href="https://instagram.com/cyrusngmh" target="_blank"
+            style="font-size:.9rem;color:var(--ink);transition:opacity .2s;display:flex;align-items:center;gap:5px;"
+            onmouseover="this.style.opacity=.5" onmouseout="this.style.opacity=1">
+            Instagram
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
           </a>
           <a href="#" id="footer-linkedin"
